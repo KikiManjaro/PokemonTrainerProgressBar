@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/NyanProgressBar.iml" filepath="$PROJECT_DIR$/NyanProgressBar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EeveeProgressBar.iml" filepath="$PROJECT_DIR$/EeveeProgressBar.iml" />
     </modules>
   </component>
 </project>
