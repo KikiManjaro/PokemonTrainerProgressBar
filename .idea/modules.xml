@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/EeveeProgressBar.iml" filepath="$PROJECT_DIR$/EeveeProgressBar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PokemonTrainerProgressBar.iml" filepath="$PROJECT_DIR$/PokemonTrainerProgressBar.iml" />
     </modules>
   </component>
 </project>

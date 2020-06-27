@@ -1,17 +1,17 @@
 <idea-plugin>
-  <id>manjaro.epb</id>
-  <name>Eevee Progress Bar</name>
+  <id>manjaro.ptpb</id>
+  <name>Pokemon Trainer Progress Bar</name>
   <version>1.0</version>
   <idea-version since-build="192"/>
   <vendor email="kylian.meulin@gmail.com">KikiManjaro</vendor>
 
   <description><![CDATA[
-      This is the Eevee Progress Bar for IJ based IDEs based on the Nyan Progress Bar by Dmitry Batkovitch.
-      It display a running Eevee for the basic bar and random eeveelution for the indeterminate one.
+      This is the Pokemon Trainer Progress Bar for IJ based IDEs based on the Nyan Progress Bar by Dmitry Batkovitch.
+      It display Red and Pikachu for the basic bar and the bike animation for the indeterminate one.
     ]]></description>
 
   <change-notes><![CDATA[
-      <em>1.0 Creation of the Eevee Progress Bar Project</em><br>
+      <em>1.0 Creation of the Pokemon Trainer Progress Bar Project</em><br>
     ]]>
   </change-notes>
 

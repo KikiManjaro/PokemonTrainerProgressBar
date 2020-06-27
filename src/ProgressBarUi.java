@@ -24,19 +24,13 @@ import java.util.Random;
 public class ProgressBarUi extends BasicProgressBarUI {
     private static final float ONE_OVER_SEVEN = 1f / 7;
     private static final Color VIOLET = new Color(90, 0, 157);
-    private static final Color mainColor = Color.WHITE;
+    private static final Color mainColor = new Color(248,248,248);
     Icon selectedIcon;
     Icon selectedReverseIcon;
-    Icon[] iconList;
-    Icon[] reverseIconList;
 
     public ProgressBarUi() {
-        iconList = new Icon[]{Icons.ICON2, Icons.ICON4, Icons.ICON6, Icons.ICON8, Icons.ICON10, Icons.ICON12};
-
-        reverseIconList = new Icon[]{Icons.RICON3, Icons.RICON5, Icons.RICON7, Icons.RICON9, Icons.RICON11, Icons.RICON13};
-
-        selectedIcon = getRandomOddIcon();
-        selectedReverseIcon = getRandomEvenIcon();
+        selectedIcon = Icons.TRAINER;
+        selectedReverseIcon = Icons.RTRAINER;
     }
 
     @SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass", "UnusedDeclaration"})
@@ -97,7 +91,7 @@ public class ProgressBarUi extends BasicProgressBarUI {
 //                new float[]{ONE_OVER_SEVEN * 1, ONE_OVER_SEVEN * 2, ONE_OVER_SEVEN * 3, ONE_OVER_SEVEN * 4, ONE_OVER_SEVEN * 5, ONE_OVER_SEVEN * 6, ONE_OVER_SEVEN * 7},
 //                new Color[]{Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.cyan, Color.blue, VIOLET});
 
-        g.setPaint(mainColor);
+//        g.setPaint(mainColor);
 
         if (c.isOpaque()) {
             g.fillRect(0, (c.getHeight() - h) / 2, w, h);
@@ -166,17 +160,9 @@ public class ProgressBarUi extends BasicProgressBarUI {
 
         Icon scaledIcon = selectedIcon;
         if (velocity > 0) {
-            if (isReverse) {
-                selectedIcon = getRandomOddIconExcept(scaledIcon);
-            }
             scaledIcon = ((ScalableIcon) selectedIcon);
-            isReverse = false;
         } else {
-            if (!isReverse) {
-                selectedReverseIcon = getRandomEvenIconExcept(scaledIcon);
-            }
             scaledIcon = ((ScalableIcon) selectedReverseIcon);
-            isReverse = true;
         }
 //        if (velocity < 0) {
 //            scaledIcon = new ReflectedIcon(scaledIcon);
@@ -184,7 +170,7 @@ public class ProgressBarUi extends BasicProgressBarUI {
 
         //x == space from right to left
         //y == space from bottom to top
-        scaledIcon.paintIcon(progressBar, g, offset2 - JBUI.scale(3), -JBUI.scale(0));
+        scaledIcon.paintIcon(progressBar, g, offset2 - JBUI.scale(3), -JBUI.scale(-2));
 
         g.draw(new RoundRectangle2D.Float(1f, 1f, w - 2f - 1f, h - 2f - 1f, R, R));
         g.translate(0, -(c.getHeight() - h) / 2);
@@ -253,7 +239,8 @@ public class ProgressBarUi extends BasicProgressBarUI {
 
         //x == space from right to left
         //y == space from bottom to top
-        Icons.ICON.paintIcon(progressBar, g2, amountFull - JBUI.scale(3), -JBUI.scale(0));
+        Icons.WTRAINER.paintIcon(progressBar, g2, amountFull - JBUI.scale(-13), -JBUI.scale(-1));
+        Icons.PIKACHU.paintIcon(progressBar, g2, amountFull - JBUI.scale(1), -JBUI.scale(-1));
         g2.translate(0, -(c.getHeight() - h) / 2);
 
         // Deal with possible text painting
@@ -314,39 +301,6 @@ public class ProgressBarUi extends BasicProgressBarUI {
     private static boolean isEven(int value) {
         return value % 2 == 0;
     }
-
-    private Icon getRandomOddIcon() {
-        return getIconFromList(iconList);
-    }
-
-    private Icon getRandomOddIconExcept(Icon icon) {
-        Icon toReturn = null;
-        int oldIndex = ArrayUtil.indexOf(reverseIconList, icon);
-        while (toReturn == null || ArrayUtil.indexOf(iconList, toReturn) == oldIndex) {
-            toReturn = getIconFromList(iconList);
-        }
-        return toReturn;
-    }
-
-    private Icon getRandomEvenIcon() {
-        return getIconFromList(reverseIconList);
-    }
-
-    private Icon getRandomEvenIconExcept(Icon icon) {
-        Icon toReturn = null;
-        int oldIndex = ArrayUtil.indexOf(iconList, icon);
-        while (toReturn == null || ArrayUtil.indexOf(reverseIconList, toReturn) == oldIndex) {
-            toReturn = getIconFromList(reverseIconList);
-        }
-        return toReturn;
-    }
-
-    private Icon getIconFromList(Icon[] icons) {
-        Random r = new Random();
-        int i = r.nextInt(icons.length);
-        return icons[i];
-    }
-
 
 }
 
