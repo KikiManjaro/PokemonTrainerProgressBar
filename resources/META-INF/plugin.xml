@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>manjaro.ptpb</id>
   <name>Pokemon Trainer Progress Bar</name>
-  <version>1.0</version>
+  <version>1.1</version>
   <idea-version since-build="192"/>
   <vendor email="kylian.meulin@gmail.com">KikiManjaro</vendor>
 
@@ -12,6 +12,7 @@
 
   <change-notes><![CDATA[
       <em>1.0 Creation of the Pokemon Trainer Progress Bar Project</em><br>
+      <em>1.1 Adding bigger icon for larger screen</em><br>
     ]]>
   </change-notes>
 
