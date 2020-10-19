@@ -3,10 +3,10 @@ import com.intellij.openapi.util.IconLoader;
 import javax.swing.*;
 
 public interface Icons {
-    Icon TRAINER = IconLoader.getIcon("/Trainer.gif");
-    Icon RTRAINER = IconLoader.getIcon("/RTrainer.gif");
+    ImageIcon TRAINER = new ImageIcon(Icons.class.getResource("/Trainer.gif"));
+    ImageIcon RTRAINER = new ImageIcon(Icons.class.getResource("/RTrainer.gif"));
 
-    Icon WTRAINER = IconLoader.getIcon("/WalkingTrainer.gif");
+    ImageIcon WTRAINER = new ImageIcon(Icons.class.getResource("/WalkingTrainer.gif"));
 
-    Icon PIKACHU = IconLoader.getIcon("/Pikachu.gif");
+    ImageIcon PIKACHU = new ImageIcon(Icons.class.getResource("/Pikachu.gif"));
 }
