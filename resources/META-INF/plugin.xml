@@ -1,8 +1,8 @@
 <idea-plugin>
   <id>manjaro.ptpb</id>
   <name>Pokemon Trainer Progress Bar</name>
-  <version>1.3</version>
-  <idea-version since-build="181"/>
+  <version>1.4</version>
+  <idea-version since-build="193"/>
   <vendor email="kylian.meulin@gmail.com">KikiManjaro</vendor>
 
   <description><![CDATA[
@@ -24,6 +24,7 @@
       <em>1.1 Adding bigger icon for larger screen</em><br>
       <em>1.2 Fix images in description</em><br>
       <em>1.3 Fix icon rendering issues</em><br>
+      <em>1.4 Usage of new Jetbrains API.</em><br>
     ]]>
   </change-notes>
 
@@ -39,9 +40,8 @@
     <!-- Add your actions here -->
   </actions>
 
-  <application-components>
-    <component>
-      <implementation-class>ApplicationComponent</implementation-class>
-    </component>
-  </application-components>
+  <applicationListeners>
+    <listener class="ProgressBarLafManagerListener"
+              topic="com.intellij.ide.ui.LafManagerListener" />
+  </applicationListeners>
 </idea-plugin>
