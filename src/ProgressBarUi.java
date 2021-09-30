@@ -18,7 +18,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 public class ProgressBarUi extends BasicProgressBarUI {
-    private static final Color mainColor = new Color(248, 248, 248);
+    private static final Color mainColor = Gray._248;
     Icon selectedIcon;
     Icon selectedReverseIcon;
 
@@ -57,7 +57,6 @@ public class ProgressBarUi extends BasicProgressBarUI {
     private volatile int offset = 0;
     private volatile int offset2 = 0;
     private volatile int velocity = 1;
-    boolean isReverse;
 
     @Override
     protected void paintIndeterminate(Graphics g2d, JComponent c) {
@@ -75,18 +74,16 @@ public class ProgressBarUi extends BasicProgressBarUI {
         g.setColor(new JBColor(Gray._240.withAlpha(50), Gray._128.withAlpha(50)));
         int w = c.getWidth();
         int h = c.getPreferredSize().height;
-        if (!isEven(c.getHeight() - h)) h++;
+        if (isNotEven(c.getHeight() - h)) h++;
         if (c.isOpaque()) {
             g.fillRect(0, (c.getHeight() - h) / 2, w, h);
         }
         g.setColor(new JBColor(Gray._165.withAlpha(50), Gray._88.withAlpha(50)));
         final GraphicsConfig config = GraphicsUtil.setupAAPainting(g);
         g.translate(0, (c.getHeight() - h) / 2);
-        int x = -offset;
-        Paint old = g.getPaint();
 
-        final float R = JBUI.scale(8f);
-        final float R2 = JBUI.scale(9f);
+        final float R = JBUI.scale(8);
+        final float R2 = JBUI.scale(9);
         final Area containingRoundRect = new Area(new RoundRectangle2D.Float(1f, 1f, w - 2f, h - 2f, R, R));
         g.fill(containingRoundRect);
         offset = (offset + 1) % getPeriodLength();
@@ -106,13 +103,11 @@ public class ProgressBarUi extends BasicProgressBarUI {
 
         area.subtract(new Area(new RoundRectangle2D.Float(0, 0, w, h, R2, R2)));
 
-        Container parent = c.getParent();
-        Color background = parent != null ? parent.getBackground() : UIUtil.getPanelBackground();
         if (c.isOpaque()) {
             g.fill(area);
         }
 
-        Icon scaledIcon = selectedIcon;
+        Icon scaledIcon;
         if (velocity > 0) {
             scaledIcon = selectedIcon;
         } else {
@@ -149,7 +144,7 @@ public class ProgressBarUi extends BasicProgressBarUI {
         Insets b = progressBar.getInsets(); // area for border
         int w = progressBar.getWidth();
         int h = progressBar.getPreferredSize().height;
-        if (!isEven(c.getHeight() - h)) h++;
+        if (isNotEven(c.getHeight() - h)) h++;
 
         int barRectWidth = w - (b.right + b.left);
         int barRectHeight = h - (b.top + b.bottom);
@@ -169,9 +164,9 @@ public class ProgressBarUi extends BasicProgressBarUI {
             g.fillRect(0, 0, w, h);
         }
 
-        final float R = JBUI.scale(8f);
-        final float R2 = JBUI.scale(9f);
-        final float off = JBUI.scale(1f);
+        final float R = JBUI.scale(8);
+        final float R2 = JBUI.scale(9);
+        final float off = JBUI.scale(1);
 
         g2.translate(0, (c.getHeight() - h) / 2);
         g2.setColor(progressBar.getForeground());
@@ -179,7 +174,7 @@ public class ProgressBarUi extends BasicProgressBarUI {
         g2.setColor(background);
         g2.fill(new RoundRectangle2D.Float(off, off, w - 2f * off - off, h - 2f * off - off, R, R));
         g2.setPaint(mainColor);
-        g2.fill(new RoundRectangle2D.Float(2f * off, 2f * off, amountFull - JBUI.scale(5f), h - JBUI.scale(5f), JBUI.scale(7f), JBUI.scale(7f)));
+        g2.fill(new RoundRectangle2D.Float(2f * off, 2f * off, amountFull - JBUI.scale(5), h - JBUI.scale(5), JBUI.scale(7), JBUI.scale(7)));
 
         Icons.WTRAINER.paintIcon(progressBar, g2, amountFull - JBUI.scale(-13), -JBUI.scale(-1));
         Icons.PIKACHU.paintIcon(progressBar, g2, amountFull - JBUI.scale(1), -JBUI.scale(-1));
@@ -236,8 +231,8 @@ public class ProgressBarUi extends BasicProgressBarUI {
         return JBUI.scale(16);
     }
 
-    private static boolean isEven(int value) {
-        return value % 2 == 0;
+    private static boolean isNotEven(int value) {
+        return !(value % 2 == 0);
     }
 
 }
