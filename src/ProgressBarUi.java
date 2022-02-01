@@ -1,6 +1,7 @@
 import com.intellij.openapi.ui.GraphicsConfig;
 import com.intellij.ui.Gray;
 import com.intellij.ui.JBColor;
+import com.intellij.ui.scale.JBUIScale;
 import com.intellij.util.ui.GraphicsUtil;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
@@ -35,7 +36,7 @@ public class ProgressBarUi extends BasicProgressBarUI {
 
     @Override
     public Dimension getPreferredSize(JComponent c) {
-        return new Dimension(super.getPreferredSize(c).width, JBUI.scale(20));
+        return new Dimension(super.getPreferredSize(c).width, JBUIScale.scale(20));
     }
 
     @Override
@@ -82,8 +83,8 @@ public class ProgressBarUi extends BasicProgressBarUI {
         final GraphicsConfig config = GraphicsUtil.setupAAPainting(g);
         g.translate(0, (c.getHeight() - h) / 2);
 
-        final float R = JBUI.scale(8);
-        final float R2 = JBUI.scale(9);
+        final float R = JBUIScale.scale(8);
+        final float R2 = JBUIScale.scale(9);
         final Area containingRoundRect = new Area(new RoundRectangle2D.Float(1f, 1f, w - 2f, h - 2f, R, R));
         g.fill(containingRoundRect);
         offset = (offset + 1) % getPeriodLength();
@@ -91,8 +92,8 @@ public class ProgressBarUi extends BasicProgressBarUI {
         if (offset2 <= 2) {
             offset2 = 2;
             velocity = 1;
-        } else if (offset2 >= w - JBUI.scale(15)) {
-            offset2 = w - JBUI.scale(15);
+        } else if (offset2 >= w - JBUIScale.scale(15)) {
+            offset2 = w - JBUIScale.scale(15);
             velocity = -1;
         }
         Area area = new Area(new Rectangle2D.Float(0, 0, w, h));
@@ -114,7 +115,7 @@ public class ProgressBarUi extends BasicProgressBarUI {
             scaledIcon = selectedReverseIcon;
         }
 
-        scaledIcon.paintIcon(progressBar, g, offset2 - JBUI.scale(3), -JBUI.scale(-2));
+        scaledIcon.paintIcon(progressBar, g, offset2 - JBUIScale.scale(3), -JBUIScale.scale(-2));
 
         g.draw(new RoundRectangle2D.Float(1f, 1f, w - 2f - 1f, h - 2f - 1f, R, R));
         g.translate(0, -(c.getHeight() - h) / 2);
@@ -164,9 +165,9 @@ public class ProgressBarUi extends BasicProgressBarUI {
             g.fillRect(0, 0, w, h);
         }
 
-        final float R = JBUI.scale(8);
-        final float R2 = JBUI.scale(9);
-        final float off = JBUI.scale(1);
+        final float R = JBUIScale.scale(8);
+        final float R2 = JBUIScale.scale(9);
+        final float off = JBUIScale.scale(1);
 
         g2.translate(0, (c.getHeight() - h) / 2);
         g2.setColor(progressBar.getForeground());
@@ -174,10 +175,10 @@ public class ProgressBarUi extends BasicProgressBarUI {
         g2.setColor(background);
         g2.fill(new RoundRectangle2D.Float(off, off, w - 2f * off - off, h - 2f * off - off, R, R));
         g2.setPaint(mainColor);
-        g2.fill(new RoundRectangle2D.Float(2f * off, 2f * off, amountFull - JBUI.scale(5), h - JBUI.scale(5), JBUI.scale(7), JBUI.scale(7)));
+        g2.fill(new RoundRectangle2D.Float(2f * off, 2f * off, amountFull - JBUIScale.scale(5), h - JBUIScale.scale(5), JBUIScale.scale(7), JBUIScale.scale(7)));
 
-        Icons.WTRAINER.paintIcon(progressBar, g2, amountFull - JBUI.scale(-13), -JBUI.scale(-1));
-        Icons.PIKACHU.paintIcon(progressBar, g2, amountFull - JBUI.scale(1), -JBUI.scale(-1));
+        Icons.WTRAINER.paintIcon(progressBar, g2, amountFull - JBUIScale.scale(-13), -JBUIScale.scale(-1));
+        Icons.PIKACHU.paintIcon(progressBar, g2, amountFull - JBUIScale.scale(1), -JBUIScale.scale(-1));
         g2.translate(0, -(c.getHeight() - h) / 2);
 
         // Deal with possible text painting
@@ -228,7 +229,7 @@ public class ProgressBarUi extends BasicProgressBarUI {
     }
 
     private int getPeriodLength() {
-        return JBUI.scale(16);
+        return JBUIScale.scale(16);
     }
 
     private static boolean isNotEven(int value) {
