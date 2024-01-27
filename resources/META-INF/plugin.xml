@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>manjaro.ptpb</id>
   <name>Pokemon Trainer Progress Bar</name>
-  <version>1.6</version>
+  <version>1.7</version>
   <idea-version since-build="193"/>
   <vendor email="kylian.meulin@gmail.com">KikiManjaro</vendor>
 
@@ -27,6 +27,7 @@
       <em>1.4 Usage of new Jetbrains API.</em><br>
       <em>1.5 Fix project language level</em><br>
       <em>1.6 Usage of JBUIScale instead of JBUI</em><br>
+      <em>1.7 Support IntelliJ 2023.3 and later</em><br>
     ]]>
   </change-notes>
 
@@ -45,5 +46,7 @@
   <applicationListeners>
     <listener class="ProgressBarLafManagerListener"
               topic="com.intellij.ide.ui.LafManagerListener" />
+      <listener class="ProgressBarLafManagerListener"
+                topic="com.intellij.openapi.application.ApplicationActivationListener"/>
   </applicationListeners>
 </idea-plugin>
