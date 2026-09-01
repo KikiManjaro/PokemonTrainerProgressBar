@@ -1,3 +1,22 @@
-
-# Project exclude paths
+# IntelliJ
 /out/
+/.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/usage.statistics.xml
+/.idea/dictionaries
+/.idea/shelf
+
+# Build
+*.class
+*.jar
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
