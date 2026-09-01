@@ -11,8 +11,6 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
@@ -42,17 +40,9 @@ public class ProgressBarUi extends BasicProgressBarUI {
     @Override
     protected void installListeners() {
         super.installListeners();
-        progressBar.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentShown(ComponentEvent e) {
-                super.componentShown(e);
-            }
-
-            @Override
-            public void componentHidden(ComponentEvent e) {
-                super.componentHidden(e);
-            }
-        });
+        // No-op component listener removed: previously added empty shown/hidden
+        // hooks that only leaked listeners on each LAF change. BasicProgressBarUI
+        // already handles visibility via its own property listeners.
     }
 
     private volatile int offset = 0;
@@ -75,7 +65,7 @@ public class ProgressBarUi extends BasicProgressBarUI {
         g.setColor(new JBColor(Gray._240.withAlpha(50), Gray._128.withAlpha(50)));
         int w = c.getWidth();
         int h = c.getPreferredSize().height;
-        if (isNotEven(c.getHeight() - h)) h++;
+        if (!isEven(c.getHeight() - h)) h++;
         if (c.isOpaque()) {
             g.fillRect(0, (c.getHeight() - h) / 2, w, h);
         }
@@ -115,7 +105,9 @@ public class ProgressBarUi extends BasicProgressBarUI {
             scaledIcon = selectedReverseIcon;
         }
 
-        scaledIcon.paintIcon(progressBar, g, offset2 - JBUIScale.scale(3), -JBUIScale.scale(-2));
+        try {
+            scaledIcon.paintIcon(progressBar, g, offset2 - JBUIScale.scale(3), -JBUIScale.scale(-2));
+        } catch (Exception ignored) {}
 
         g.draw(new RoundRectangle2D.Float(1f, 1f, w - 2f - 1f, h - 2f - 1f, R, R));
         g.translate(0, -(c.getHeight() - h) / 2);
@@ -145,7 +137,7 @@ public class ProgressBarUi extends BasicProgressBarUI {
         Insets b = progressBar.getInsets(); // area for border
         int w = progressBar.getWidth();
         int h = progressBar.getPreferredSize().height;
-        if (isNotEven(c.getHeight() - h)) h++;
+        if (!isEven(c.getHeight() - h)) h++;
 
         int barRectWidth = w - (b.right + b.left);
         int barRectHeight = h - (b.top + b.bottom);
@@ -177,16 +169,18 @@ public class ProgressBarUi extends BasicProgressBarUI {
         g2.setPaint(mainColor);
         g2.fill(new RoundRectangle2D.Float(2f * off, 2f * off, amountFull - JBUIScale.scale(5), h - JBUIScale.scale(5), JBUIScale.scale(7), JBUIScale.scale(7)));
 
-        PTCharacter selected = PTProgressBarSettingsState.getInstance().getSelectedCharacter();
-        if (selected == PTCharacter.PIKACHU) {
-            Icons.PIKACHU.paintIcon(progressBar, g2, amountFull - JBUIScale.scale(1), -JBUIScale.scale(-1));
-        } else if (selected == PTCharacter.WALKING_TRAINER) {
-            Icons.WTRAINER.paintIcon(progressBar, g2, amountFull - JBUIScale.scale(-13), -JBUIScale.scale(-1));
-        } else {
-            // TRAINER: show trainer + pikachu following
-            Icons.WTRAINER.paintIcon(progressBar, g2, amountFull - JBUIScale.scale(-13), -JBUIScale.scale(-1));
-            Icons.PIKACHU.paintIcon(progressBar, g2, amountFull - JBUIScale.scale(1), -JBUIScale.scale(-1));
-        }
+        // Guard icon painting with character selection + missing-resource safety
+        try {
+            PTCharacter selected = PTProgressBarSettingsState.getInstance().getSelectedCharacter();
+            if (selected == PTCharacter.PIKACHU) {
+                Icons.PIKACHU.paintIcon(progressBar, g2, amountFull - JBUIScale.scale(1), -JBUIScale.scale(-1));
+            } else if (selected == PTCharacter.WALKING_TRAINER) {
+                Icons.WTRAINER.paintIcon(progressBar, g2, amountFull - JBUIScale.scale(-13), -JBUIScale.scale(-1));
+            } else {
+                Icons.WTRAINER.paintIcon(progressBar, g2, amountFull - JBUIScale.scale(-13), -JBUIScale.scale(-1));
+                Icons.PIKACHU.paintIcon(progressBar, g2, amountFull - JBUIScale.scale(1), -JBUIScale.scale(-1));
+            }
+        } catch (Exception ignored) {}
         g2.translate(0, -(c.getHeight() - h) / 2);
 
         // Deal with possible text painting
@@ -205,6 +199,7 @@ public class ProgressBarUi extends BasicProgressBarUI {
 
         Graphics2D g2 = (Graphics2D) g;
         String progressString = progressBar.getString();
+        if (progressString == null || progressString.isEmpty()) return;
         g2.setFont(progressBar.getFont());
         Point renderLocation = getStringPlacement(g2, progressString,
                 x, y, w, h);
@@ -240,8 +235,8 @@ public class ProgressBarUi extends BasicProgressBarUI {
         return JBUIScale.scale(16);
     }
 
-    private static boolean isNotEven(int value) {
-        return !(value % 2 == 0);
+    private static boolean isEven(int value) {
+        return value % 2 == 0;
     }
 
 }
